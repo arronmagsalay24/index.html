@@ -1,66 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login and Registration</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
-            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            width: 350px;
             text-align: center;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
         }
-        form {
-            width: 300px;
-            margin: 20px auto;
-            text-align: left;
+
+        h2 {
+            color: white;
+            margin-bottom: 15px;
         }
+
         label {
             display: block;
+            color: white;
+            font-size: 14px;
             margin-bottom: 5px;
+            font-weight: 600;
         }
+
         input {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
+            padding: 10px;
             border: none;
-            cursor: pointer;
+            border-radius: 5px;
+            outline: none;
+            margin-bottom: 15px;
+            font-size: 16px;
         }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #00ff99;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #00cc77;
+        }
+
         .message {
             margin-top: 10px;
-            color: red;
+            font-size: 14px;
+            font-weight: bold;
         }
-        #logoutBtn {
-            display: none;
-            margin-top: 20px;
-            background-color: red;
+
+        p {
+            color: white;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        a {
+            color: yellow;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Login/Register</h1>
 
-    <!-- Login Form -->
-    <div id="loginForm" style="display: none;">
+    <div class="container" id="loginForm" style="display: none;">
         <h2>Login</h2>
         <form id="login">
             <label for="loginUsername">Username:</label>
             <input type="text" id="loginUsername" name="loginUsername" required>
-            
             <label for="loginPassword">Password:</label>
             <input type="password" id="loginPassword" name="loginPassword" required>
-            
             <button type="submit">Login</button>
         </form>
         <p>Don't have an account? <a href="#" onclick="showRegister()">Register here</a>.</p>
         <div id="loginMessage" class="message"></div>
     </div>
 
-    <!-- Registration Form -->
-    <div id="registerForm" style="display: block;">
+    <div class="container" id="registerForm" style="display: block;">
         <h2>Register</h2>
         <form id="register">
             <label for="registerUsername">Username:</label>
@@ -75,13 +137,9 @@
         <div id="registerMessage" class="message"></div>
     </div>
 
-    <!-- Logout Button -->
-    <button id="logoutBtn">Logout</button>
-
     <script>
         let users = JSON.parse(localStorage.getItem('users')) || {};
 
-        // Login event listener
         document.getElementById('login').addEventListener('submit', function (event) {
             event.preventDefault();
             const username = document.getElementById('loginUsername').value;
@@ -90,13 +148,12 @@
 
             if (users[username] && users[username] === password) {
                 messageDiv.textContent = 'Login successful!';
-                messageDiv.style.color = 'green';
+                messageDiv.style.color = 'lightgreen';
 
-                // Save login session
                 localStorage.setItem('isLoggedIn', 'true');
 
                 setTimeout(() => {
-                    window.location.href = 'file:///C:/Users/MAGSALAY/OneDrive/Desktop/myportfolio.html'; // Redirect to portfolio
+                    window.location.href = 'https://arronmagsalay24.github.io/arronmagsalay.github.io/';
                 }, 1000);
             } else {
                 messageDiv.textContent = 'Invalid username or password.';
@@ -104,7 +161,6 @@
             }
         });
 
-        // Registration event listener
         document.getElementById('register').addEventListener('submit', function (event) {
             event.preventDefault();
             const username = document.getElementById('registerUsername').value;
@@ -119,9 +175,8 @@
                 localStorage.setItem('users', JSON.stringify(users));
 
                 messageDiv.textContent = 'Registration successful!';
-                messageDiv.style.color = 'green';
+                messageDiv.style.color = 'lightgreen';
 
-                // Clear input fields after registration
                 document.getElementById('registerUsername').value = "";
                 document.getElementById('registerPassword').value = "";
 
@@ -143,19 +198,8 @@
             document.getElementById('registerMessage').textContent = "";
         }
 
-        // Logout Functionality
-        document.getElementById('logoutBtn').addEventListener('click', function () {
-            localStorage.removeItem('isLoggedIn'); // Clear session
-            window.location.href = 'file:///C:/Users/MAGSALAY/OneDrive/Desktop/my%20portfolio/eto%20ang%20save%20sa%20vscode.html#'; // Redirect to Login/Register page
-        });
-
-        // Check if user is logged in and show logout button
-        if (localStorage.getItem('isLoggedIn')) {
-            document.getElementById('logoutBtn').style.display = 'block';
-        }
-
-        // Show register form initially
         showRegister();
     </script>
+
 </body>
 </html>
