@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Registration</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            width: 350px;
+            text-align: center;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: white;
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #00ff99;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #00cc77;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        p {
+            color: white;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        a {
+            color: yellow;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="loginForm" style="display: none;">
+        <h2>Login</h2>
+        <form id="login">
+            <label for="loginUsername">Username:</label>
+            <input type="text" id="loginUsername" name="loginUsername" required>
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" name="loginPassword" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#" onclick="showRegister()">Register here</a>.</p>
+        <div id="loginMessage" class="message"></div>
+    </div>
+
+    <div class="container" id="registerForm" style="display: block;">
+        <h2>Register</h2>
+        <form id="register">
+            <label for="registerUsername">Username:</label>
+            <input type="text" id="registerUsername" name="registerUsername" required>
+            
+            <label for="registerPassword">Password:</label>
+            <input type="password" id="registerPassword" name="registerPassword" required>
+            
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a>.</p>
+        <div id="registerMessage" class="message"></div>
+    </div>
+
+    <script>
+        let users = JSON.parse(localStorage.getItem('users')) || {};
+
+        document.getElementById('login').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const messageDiv = document.getElementById('loginMessage');
+
+            if (users[username] && users[username] === password) {
+                messageDiv.textContent = 'Login successful!';
+                messageDiv.style.color = 'lightgreen';
+
+                localStorage.setItem('isLoggedIn', 'true');
+
+                setTimeout(() => {
+                    window.location.href = 'https://arronmagsalay24.github.io/arronmagsalay.github.io/';
+                }, 1000);
+            } else {
+                messageDiv.textContent = 'Invalid username or password.';
+                messageDiv.style.color = 'red';
+            }
+        });
+
+        document.getElementById('register').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            const messageDiv = document.getElementById('registerMessage');
+
+            if (users[username]) {
+                messageDiv.textContent = 'Username already exists.';
+                messageDiv.style.color = 'red';
+            } else {
+                users[username] = password;
+                localStorage.setItem('users', JSON.stringify(users));
+
+                messageDiv.textContent = 'Registration successful!';
+                messageDiv.style.color = 'lightgreen';
+
+                document.getElementById('registerUsername').value = "";
+                document.getElementById('registerPassword').value = "";
+
+                showLogin();
+            }
+        });
+
+        function showRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('loginMessage').textContent = "";
+            document.getElementById('registerMessage').textContent = "";
+        }
+
+        function showLogin() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginMessage').textContent = "";
+            document.getElementById('registerMessage').textContent = "";
+        }
+
+        showRegister();
+    </script>
+
+</body>
+</html>
