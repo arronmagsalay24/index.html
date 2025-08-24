@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Arron's Portfolio</title>
+</head>
+<body>
+    <h1>PORTFOLIO WEBSITE</h1>
+
+    <!-- Login Form -->
+    <div id="loginForm" style="display: none;">
+        <h2>Login</h2>
+        <form id="login">
+            <label for="loginUsername">Username:</label>
+            <input type="text" id="loginUsername" name="Admin" required>
+            
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" name="123" required>
+            
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#" onclick="showRegister()">Register here</a>.</p>
+        <div id="loginMessage" class="message"></div>
+    </div>
+
+    <!-- Registration Form -->
+    <div id="registerForm" style="display: block;">
+        <h2>Register</h2>
+        <form id="register">
+            <label for="registerUsername">Username:</label>
+            <input type="text" id="registerUsername" name="registerUsername" required>
+            
+            <label for="registerPassword">Password:</label>
+            <input type="password" id="registerPassword" name="registerPassword" required>
+            
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a>.</p>
+        <div id="registerMessage" class="message"></div>
+    </div>
+
+     <script src="script.js"></script>
+</body>
+</html>
